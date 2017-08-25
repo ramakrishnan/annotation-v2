@@ -90,9 +90,7 @@ class TextSelector {
                 }
                 textNode = tree.nextNode();
             }
-        }
-        let nodeLength = nodes.length;
-        if (nodeLength == 0) {
+        } else {
             // This is a case where an entire node is selected or just a word in a node is selected.
             // Split the text nodes by start and end offset and pick the middle one
             // Get the index of the txt node selected
@@ -101,10 +99,20 @@ class TextSelector {
             let textNode;
             if (endTextNodeIndex == startTextNodeIndex) {
                 textNode = this.getNodeForIndex(startNode, startTextNodeIndex);
+                nodes.push(textNode);
+            } else {
+                textNode = this.getNodeForIndex(startNode, startTextNodeIndex);
+                nodes.push(textNode);
+                textNode = this.getNodeForIndex(startNode, endTextNodeIndex);
+                nodes.push(textNode);
             }
-            let splitNode = textNode.splitText(range.startOffset);
-            textNode.nextSibling.splitText(range.endOffset - range.startOffset);
-            nodes.push(textNode.nextSibling);
+        }
+        let nodeLength = nodes.length;
+        if (nodeLength == 1) {
+            let firstNode = nodes[0];
+            let splitNode = firstNode.splitText(range.startOffset);
+            firstNode.nextSibling.splitText(range.endOffset - range.startOffset);
+            nodes[0] = firstNode.nextSibling;
         } else if (nodeLength > 1) {
             let firstNode = nodes[0];
             let lastNode = nodes[nodeLength - 1];
