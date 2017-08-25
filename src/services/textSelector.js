@@ -60,48 +60,79 @@ class TextSelector {
         let startNode = parsedRange.startContainer.parentNode;
         let endNode = parsedRange.endContainer.parentNode;
         let nodes = [];
+        let tree = document.createTreeWalker(
+            parsedRange.commonAncestorContainer,
+            // Only consider nodes that are text nodes (nodeType 3)
+            NodeFilter.SHOW_TEXT, {
+                acceptNode: function(node) {
+                    // Logic to determine whether to accept, reject or skip node
+                    // In this case, only accept nodes that have content
+                    // other than whitespace
+                    // let textContent = node.data.replace(/\s/g, '');
+                     if ( ! /^\s*$/.test(node.data) ) {
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                }
+            }, false);
+        let startNodeFound = false;
+        let textNode = tree.nextNode();
         if (startNode !== endNode) {
-            let tree = document.createTreeWalker(parsedRange.commonAncestorContainer, 1).root;
-            let endNodeFound = false;
-            let startNodeFound = false;
-            let parseComplete = false;
-            let iterateNodes = (node) => {
-                node.childNodes.forEach((n) => {
-                    if (n.parentNode === startNode) {
-                        startNodeFound = true;
-                    } else if (n.parentElement === endNode) {
-                        console.log('Stop wrapping');
-                        endNodeFound = true;
-                    }
-                    if (startNodeFound === true && endNodeFound === false) {
-                        if (n.nodeType === 3) {
-                            nodes.push(n)
-                        }
-                        iterateNodes(n);
-                    } else if (startNodeFound === true && endNodeFound === true && parseComplete === false) {
-                        if (n.nodeType === 3) {
-                            parseComplete = true;
-                            nodes.push(n);
-                        }
-                    } else if (endNodeFound === false) {
-                        iterateNodes(n);
-                    }
-                })
-            };
-            iterateNodes(tree);
-            // Add start and end offset for the nodes
-            let firstNode = nodes[0];
-            let lastNod = nodes[nodes.length - 1]
-            nodes[0] = firstNode.splitText(range.startOffset).parentNode.childNodes[1];
-            nodes[nodes.length - 1] = lastNod.splitText(range.endOffset).parentNode.childNodes[0];
-        } else {
+            while (textNode) {
+                let currentParent = textNode.parentNode;
+                if (currentParent == startNode) {
+                    startNodeFound = true;
+                }
+                if (startNodeFound) {
+                    nodes.push(textNode);
+                }
+                if (currentParent == endNode) {
+                    break
+                }
+                textNode = tree.nextNode();
+            }
+        }
+        let nodeLength = nodes.length;
+        if (nodeLength == 0) {
             // This is a case where an entire node is selected or just a word in a node is selected.
             // Split the text nodes by start and end offset and pick the middle one
-            let splitNode = startNode.childNodes[0].splitText(range.startOffset);
-            startNode.childNodes[1].splitText(range.endOffset - range.startOffset);
-            nodes.push(startNode.childNodes[1]);
+            // Get the index of the txt node selected
+            let startTextNodeIndex = this.getTextNodeIndex(range.start);
+            let endTextNodeIndex = this.getTextNodeIndex(range.end);
+            let textNode;
+            if (endTextNodeIndex == startTextNodeIndex) {
+                textNode = this.getNodeForIndex(startNode, startTextNodeIndex);
+            }
+            let splitNode = textNode.splitText(range.startOffset);
+            textNode.nextSibling.splitText(range.endOffset - range.startOffset);
+            nodes.push(textNode.nextSibling);
+        } else if (nodeLength > 1) {
+            let firstNode = nodes[0];
+            let lastNode = nodes[nodeLength - 1];
+            nodes[0] = firstNode.splitText(range.startOffset);
+            nodes[nodeLength - 1] = lastNode.splitText(range.endOffset).previousSibling;
         }
         return nodes;
+    }
+
+    getTextNodeIndex(rangeStr) {
+        let strIndex = rangeStr.lastIndexOf('[');
+        return parseInt(rangeStr.substr(strIndex + 1, rangeStr.length));
+    }
+
+    getNodeForIndex(startNode, index) {
+        let textNodeCount = 0;
+        let textNode;
+        let childNodes = startNode.childNodes;
+        for (let i = 0; i < childNodes.length; i++) {
+            if (childNodes[i].nodeType === 3)  {
+                textNodeCount++;
+                if (textNodeCount == index) {
+                    textNode = childNodes[i];
+                    break;
+                }
+            }
+        }
+        return textNode;
     }
 }
 
