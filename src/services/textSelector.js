@@ -1,5 +1,4 @@
 let xpathRange = require('xpath-range');
-import highlighter from './highlighter.js';
 
 class TextSelector {
     constructor() {
@@ -13,14 +12,6 @@ class TextSelector {
 
     get rootElement() {
         return this._rootElement;
-    }
-
-    captureSelectedRange() {
-        let range = this.getSelectedRange();
-        if (range.length !== 0) {
-            this.nodes = this.getSelectedNodes(range);
-            highlighter.highlight(this.nodes);
-        }
     }
 
     getMousePosition(event) {

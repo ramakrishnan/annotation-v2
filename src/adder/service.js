@@ -1,5 +1,7 @@
 import adderTemplate from './adder.html.hbs';
 import textSelector from '../services/textSelector.js';
+import highlighter from '../services/highlighter.js';
+
 class AdderService {
 
     constructor() {
@@ -29,13 +31,16 @@ class AdderService {
     }
 
     bindEvents() {
-        this.$adder.querySelector('button').addEventListener(('click'), (event) => {
-            this.clickMe(event);
+        this.$adder.querySelector('button.highlight').addEventListener(('click'), (event) => {
+            this.highlightText(event);
         })
     }
 
-    clickMe(event) {
-        textSelector.captureSelectedRange();
+    highlightText(event) {
+        let range = textSelector.getSelectedRange();
+        if (range.length !== 0) {
+            highlighter.highlight(range);
+        }
     }
 }
 

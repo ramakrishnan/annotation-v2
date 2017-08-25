@@ -1,16 +1,18 @@
+import textSelector from './textSelector.js';
+
 class Highlighter {
     constructor() {
-
     }
 
-    highlight(nodes, color) {
+    highlight(range, color) {
+        let nodes = textSelector.getSelectedNodes(range);
         color = color || 'highlight';
         for (let i = 0; i < nodes.length; i++) {
             let node = nodes[i];
-            var replacementNode = document.createElement('span');
+            let replacementNode = document.createElement('span');
+            let stripText = node.textContent.replace(/\s/g, '');
             replacementNode.setAttribute('class', color);
             // replacementNode.dataset.annotationId = ''
-            let stripText = node.textContent.replace(/\s/g, '');
             if (stripText.length > 0) {
                 replacementNode.innerHTML = node.textContent;
                 node.parentNode.insertBefore(replacementNode, node);
