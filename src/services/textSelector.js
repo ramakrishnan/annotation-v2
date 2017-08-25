@@ -23,7 +23,7 @@ class TextSelector {
             left: left
         }
     }
-    
+
     getSelectedRange() {
         let selection = window.getSelection();
         let rangePath = {}
@@ -59,35 +59,48 @@ class TextSelector {
             range.endOffset, this.rootElement);
         let startNode = parsedRange.startContainer.parentNode;
         let endNode = parsedRange.endContainer.parentNode;
-        let tree = document.createTreeWalker(parsedRange.commonAncestorContainer, 1).root;
-        let endNodeFound = false;
-        let startNodeFound = false;
-        let parseComplete = false;
         let nodes = [];
-        let iterateNodes = (node) => {
-            node.childNodes.forEach((n) => {
-                if (n.parentNode === startNode) {
-                    startNodeFound = true;
-                } else if (n.parentElement === endNode) {
-                    console.log('Stop wrapping');
-                    endNodeFound = true;
-                }
-                if (startNodeFound === true && endNodeFound === false) {
-                    if (n.nodeType === 3) {
-                        nodes.push(n)
+        if (startNode !== endNode) {
+            let tree = document.createTreeWalker(parsedRange.commonAncestorContainer, 1).root;
+            let endNodeFound = false;
+            let startNodeFound = false;
+            let parseComplete = false;
+            let iterateNodes = (node) => {
+                node.childNodes.forEach((n) => {
+                    if (n.parentNode === startNode) {
+                        startNodeFound = true;
+                    } else if (n.parentElement === endNode) {
+                        console.log('Stop wrapping');
+                        endNodeFound = true;
                     }
-                    iterateNodes(n);
-                } else if (startNodeFound === true && endNodeFound === true && parseComplete === false) {
-                    if (n.nodeType === 3) {
-                        parseComplete = true;
-                        nodes.push(n);
+                    if (startNodeFound === true && endNodeFound === false) {
+                        if (n.nodeType === 3) {
+                            nodes.push(n)
+                        }
+                        iterateNodes(n);
+                    } else if (startNodeFound === true && endNodeFound === true && parseComplete === false) {
+                        if (n.nodeType === 3) {
+                            parseComplete = true;
+                            nodes.push(n);
+                        }
+                    } else if (endNodeFound === false) {
+                        iterateNodes(n);
                     }
-                } else if (endNodeFound === false) {
-                    iterateNodes(n);
-                }
-            })
-        };
-        iterateNodes(tree);
+                })
+            };
+            iterateNodes(tree);
+            // Add start and end offset for the nodes
+            let firstNode = nodes[0];
+            let lastNod = nodes[nodes.length - 1]
+            nodes[0] = firstNode.splitText(range.startOffset).parentNode.childNodes[1];
+            nodes[nodes.length - 1] = lastNod.splitText(range.endOffset).parentNode.childNodes[0];
+        } else {
+            // This is a case where an entire node is selected or just a word in a node is selected.
+            // Split the text nodes by start and end offset and pick the middle one
+            let splitNode = startNode.childNodes[0].splitText(range.startOffset);
+            startNode.childNodes[1].splitText(range.endOffset - range.startOffset);
+            nodes.push(startNode.childNodes[1]);
+        }
         return nodes;
     }
 }

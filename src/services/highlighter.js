@@ -6,16 +6,16 @@ class Highlighter {
 
     highlight(range, color) {
         let nodes = textSelector.getSelectedNodes(range);
-        color = color || 'highlight';
+        color = color || 'annotator-hl';
         for (let i = 0; i < nodes.length; i++) {
             let node = nodes[i];
-            let replacementNode = document.createElement('span');
+            let spanNode = document.createElement('span');
             let stripText = node.textContent.replace(/\s/g, '');
-            replacementNode.setAttribute('class', color);
-            // replacementNode.dataset.annotationId = ''
+            spanNode.setAttribute('class', color);
+            // spanNode.dataset.annotationId = ''
             if (stripText.length > 0) {
-                replacementNode.innerHTML = node.textContent;
-                node.parentNode.insertBefore(replacementNode, node);
+                spanNode.innerHTML = node.textContent;
+                node.parentNode.insertBefore(spanNode, node);
                 node.parentNode.removeChild(node);
             }
         }
