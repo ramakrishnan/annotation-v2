@@ -19,9 +19,11 @@ class Annotation {
 
     checkForEndSelection(event) {
         let selection = window.getSelection();
-        if (selection.isCollapsed === false) {
-            // Open annotator popup
-            adderService.show();
+        if (selection.isCollapsed === false && adderService.isVisible === false) {
+            let position = textSelector.getMousePosition(event)
+            adderService.show(position);
+        } else {
+            adderService.hide();
         }
     }
 }

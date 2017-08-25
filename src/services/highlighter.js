@@ -9,6 +9,7 @@ class Highlighter {
             let node = nodes[i];
             var replacementNode = document.createElement('span');
             replacementNode.setAttribute('class', color);
+            // replacementNode.dataset.annotationId = ''
             let stripText = node.textContent.replace(/\s/g, '');
             if (stripText.length > 0) {
                 replacementNode.innerHTML = node.textContent;

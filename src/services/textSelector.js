@@ -23,6 +23,16 @@ class TextSelector {
         }
     }
 
+    getMousePosition(event) {
+        // TODO: See if need further height correction using bounding rect
+        let top = event.pageY;
+        let left = event.pageX;
+        return {
+            top: top,
+            left: left
+        }
+    }
+    
     getSelectedRange() {
         let selection = window.getSelection();
         let rangePath = {}

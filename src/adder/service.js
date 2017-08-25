@@ -6,9 +6,18 @@ class AdderService {
         this.$adder;
     }
 
-    show() {
+    get isVisible() {
+        return this.$adder.classList.contains('annotation-hide') == false
+    }
+
+    show(position) {
         this.$adder.classList.remove('annotation-hide');
-        // textSelector.captureSelectedRange();
+        this.$adder.style.top = (position.top - this.$adder.offsetHeight)+ 'px';
+        this.$adder.style.left = position.left + 'px';
+    }
+
+    hide() {
+        this.$adder.classList.add('annotation-hide');
     }
 
     inject() {
