@@ -4,6 +4,25 @@ class TextSelector {
     constructor() {
         this._rootElement;
         this.nodes;
+        this.annotatedNoded = new Map();
+        this._tempAnnotatedNode;
+        this._popupPosition;
+    }
+
+    set popupPosition(value) {
+        this._popupPosition = value;
+    }
+
+    get popupPosition() {
+        return this._popupPosition;
+    }
+
+    get tempAnnotatedNode() {
+        return this._tempAnnotatedNode;
+    }
+
+    set tempAnnotatedNode(value) {
+        this._tempAnnotatedNode = value;
     }
 
     set rootElement(value) {
@@ -18,10 +37,11 @@ class TextSelector {
         // TODO: See if need further height correction using bounding rect
         let top = event.pageY;
         let left = event.pageX;
-        return {
+        this.popupPosition = {
             top: top,
             left: left
         }
+        return this.popupPosition;
     }
 
     getSelectedRange() {
@@ -75,8 +95,8 @@ class TextSelector {
                 }
             }, false);
         let startNodeFound = false;
-        let textNode = tree.nextNode();
         if (startNode !== endNode) {
+            let textNode = tree.nextNode();
             while (textNode) {
                 let currentParent = textNode.parentNode;
                 if (currentParent == startNode) {

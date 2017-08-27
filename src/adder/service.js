@@ -1,6 +1,7 @@
 import adderTemplate from './adder.html.hbs';
 import textSelector from '../services/textSelector.js';
 import highlighter from '../services/highlighter.js';
+import highlightService from '../highlight/service.js';
 
 class AdderService {
 
@@ -23,24 +24,25 @@ class AdderService {
     }
 
     inject() {
-        let adderDom = document.createElement('div');
-        adderDom.innerHTML = adderTemplate();
-        this.$adder = adderDom.firstChild;
+        let dom = document.createElement('div');
+        dom.innerHTML = adderTemplate();
+        this.$adder = dom.firstChild;
         document.body.append(this.$adder);
         this.bindEvents();
     }
 
     bindEvents() {
         this.$adder.querySelector('button.highlight').addEventListener(('click'), (event) => {
-            this.highlightText(event);
+            this.makeTempSelection(event);
         })
     }
 
-    highlightText(event) {
+    makeTempSelection(event) {
         let range = textSelector.getSelectedRange();
         if (range.length !== 0) {
             highlighter.highlight(range);
         }
+        highlightService.show();
     }
 }
 

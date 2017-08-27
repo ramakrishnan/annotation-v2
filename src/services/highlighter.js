@@ -1,24 +1,28 @@
 import textSelector from './textSelector.js';
+import Constants from '../constants.js';
 
 class Highlighter {
     constructor() {
     }
 
-    highlight(range, color) {
+    highlight(range) {
         let nodes = textSelector.getSelectedNodes(range);
-        color = color || 'annotator-hl';
+        let highlightedNodes = [];
+        let color = [Constants.defaultColor, Constants.tempHighlight].join(' ');
         for (let i = 0; i < nodes.length; i++) {
             let node = nodes[i];
             let spanNode = document.createElement('span');
-            let stripText = node.textContent.replace(/\s/g, '');
             spanNode.setAttribute('class', color);
             // spanNode.dataset.annotationId = ''
-            if (stripText.length > 0) {
-                spanNode.innerHTML = node.textContent;
-                node.parentNode.insertBefore(spanNode, node);
-                node.parentNode.removeChild(node);
-            }
+            spanNode.innerHTML = node.textContent;
+            node.parentNode.insertBefore(spanNode, node);
+            node.parentNode.removeChild(node);
+            highlightedNodes.push(spanNode);
         }
+        textSelector.tempAnnotatedNode = {
+            nodes: highlightedNodes,
+            color: Constants.tempHighlight
+        };
     }
 }
 
