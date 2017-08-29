@@ -1,4 +1,5 @@
 let xpathRange = require('xpath-range');
+var isMobile = require('is-mobile');
 
 class TextSelector {
     constructor() {
@@ -33,10 +34,13 @@ class TextSelector {
         return this._rootElement;
     }
 
-    getMousePosition(event) {
+    getMousePosition(boundingRect) {
         // TODO: See if need further height correction using bounding rect
-        let top = event.pageY;
-        let left = event.pageX;
+        let left = boundingRect.left + (boundingRect.width / 2);
+        let top = boundingRect.top + window.scrollY;
+        if (isMobile()) {
+            top = top + boundingRect.height;
+        }
         this.popupPosition = {
             top: top,
             left: left

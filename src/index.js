@@ -8,8 +8,16 @@ import editorService from './editor/service';
 class Annotation {
     constructor(element) {
         this.element = element;
-        this.element.addEventListener('mouseup', (e) => {
+        this.selectionTimer;
+/*        this.element.addEventListener('mouseup', (e) => {
+            e.preventDefault();
             this.checkForEndSelection(e);
+        });*/
+        document.addEventListener('selectionchange', (e) => {
+            clearTimeout(this.selectionTimer);
+            this.selectionTimer = setTimeout(() => {
+                this.checkForEndSelection(e);
+            }, 500);
         });
         textSelector.rootElement = element;
     }
@@ -33,8 +41,10 @@ class Annotation {
 
     checkForEndSelection(event) {
         let selection = window.getSelection();
-        if (selection.isCollapsed === false && adderService.isVisible === false) {
-            let position = textSelector.getMousePosition(event)
+        if (selection.isCollapsed === false) {
+            let range = selection.getRangeAt(0);
+            let boundingRect = range.getBoundingClientRect();
+            let position = textSelector.getMousePosition(boundingRect);
             adderService.show(position);
             editorService.hide();
         } else {
