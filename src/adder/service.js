@@ -35,6 +35,9 @@ class AdderService {
         this.$adder.querySelector('button.highlight').addEventListener(('click'), (event) => {
             this.makeTempSelection(event);
         })
+        this.$adder.querySelector('button.highlight').addEventListener(('click'), (event) => {
+            this.makeTempSelection(event);
+        })
     }
 
     makeTempSelection(event) {

@@ -13,7 +13,6 @@ class Highlighter {
             let node = nodes[i];
             let spanNode = document.createElement('span');
             spanNode.setAttribute('class', color);
-            // spanNode.dataset.annotationId = ''
             spanNode.innerHTML = node.textContent;
             node.parentNode.insertBefore(spanNode, node);
             node.parentNode.removeChild(node);

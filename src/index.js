@@ -14,6 +14,18 @@ class Annotation {
         textSelector.rootElement = element;
     }
 
+    bindEvents() {
+        document.addEventListener('click', (event) => {
+            let target = event.target;
+            if (target.nodeName.toLowerCase() == 'span' &&
+                target.classList.indexOf(Constants.tempHighlight) == -1 &&
+                target.classList.indexOf(Constants.defaultColor) !== -1) {
+                // Clicked on an highlighted span element
+                console.log(target.dataset.annotationId)
+            }
+        });
+    }
+
     init() {
         adderService.inject();
         highlightService.inject();

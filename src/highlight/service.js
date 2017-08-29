@@ -7,7 +7,7 @@ class AdderService {
 
     constructor() {
         this.$highlight;
-        this.currentNodes;
+        this.currentNode;
     }
 
     get isVisible() {
@@ -20,9 +20,7 @@ class AdderService {
         this.$highlight.style.top = (position.top - this.$highlight.offsetHeight) + 'px';
         this.$highlight.style.left = position.left + 'px';
         if (textSelector.tempAnnotatedNode) {
-            this.currentNodes = textSelector.tempAnnotatedNode;
-        } else {
-            this.currentNodes = textSelector.annotatedNoded.get('1234');
+            this.currentNode = textSelector.tempAnnotatedNode;
         }
     }
 
@@ -45,17 +43,23 @@ class AdderService {
                 this.changeColor(event);
             });
         });
+        document.querySelector('.annotation-save').addEventListener('click', (event) => {
+            if (this.currentNode)
+            this.currentNode.nodes.forEach((node) => {
+                node.dataset.annotationId = '1234'
+            })
+        });
     }
 
     changeColor(event) {
         let color = event.target.getAttribute('data-color');
-        let nodes = this.currentNodes.nodes;
-        let currentColor = this.currentNodes.color;
+        let nodes = this.currentNode.nodes;
+        let currentColor = this.currentNode.color;
         for (let i = 0; i < nodes.length; i++) {
             Utils.replaceClassName(nodes[i], currentColor, color);
         }
         // Update current node's color to the new color
-        this.currentNodes.color = color;
+        this.currentNode.color = color;
     }
 }
 
