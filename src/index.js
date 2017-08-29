@@ -3,7 +3,7 @@ let xpathRange = require('xpath-range');
 require('./styles/annotator.scss');
 import textSelector from './services/textSelector.js';
 import adderService from './adder/service';
-import highlightService from './highlight/service';
+import editorService from './editor/service';
 
 class Annotation {
     constructor(element) {
@@ -28,7 +28,7 @@ class Annotation {
 
     init() {
         adderService.inject();
-        highlightService.inject();
+        editorService.inject();
     }
 
     checkForEndSelection(event) {
@@ -36,7 +36,7 @@ class Annotation {
         if (selection.isCollapsed === false && adderService.isVisible === false) {
             let position = textSelector.getMousePosition(event)
             adderService.show(position);
-            highlightService.hide();
+            editorService.hide();
         } else {
             adderService.hide();
         }

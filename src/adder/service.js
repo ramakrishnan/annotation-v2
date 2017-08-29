@@ -1,7 +1,7 @@
 import adderTemplate from './adder.html.hbs';
 import textSelector from '../services/textSelector.js';
 import highlighter from '../services/highlighter.js';
-import highlightService from '../highlight/service.js';
+import editortService from '../editor/service.js';
 
 class AdderService {
 
@@ -17,6 +17,7 @@ class AdderService {
         this.$adder.classList.remove('annotation-hide');
         this.$adder.style.top = (position.top - this.$adder.offsetHeight)+ 'px';
         this.$adder.style.left = position.left + 'px';
+        this.$adder.classList.add('bottom');
     }
 
     hide() {
@@ -45,7 +46,7 @@ class AdderService {
         if (range.length !== 0) {
             highlighter.highlight(range);
         }
-        highlightService.show();
+        editortService.show();
     }
 }
 

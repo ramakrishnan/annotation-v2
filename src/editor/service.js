@@ -1,4 +1,4 @@
-import highlightTemplate from './highlight.html.hbs';
+import editorTemplate from './editor.html.hbs';
 import textSelector from '../services/textSelector.js';
 import highlighter from '../services/highlighter.js';
 import Utils from '../utils.js';
@@ -6,49 +6,49 @@ import Utils from '../utils.js';
 class AdderService {
 
     constructor() {
-        this.$highlight;
+        this.$editor;
         this.currentNode;
     }
 
     get isVisible() {
-        return this.$highlight.classList.contains('annotation-hide') == false
+        return this.$editor.classList.contains('annotation-hide') == false
     }
 
     show() {
         let position = textSelector.popupPosition;
-        this.$highlight.classList.remove('annotation-hide');
-        this.$highlight.style.top = (position.top - this.$highlight.offsetHeight) + 'px';
-        this.$highlight.style.left = position.left + 'px';
+        this.$editor.classList.remove('annotation-hide');
+        this.$editor.style.top = (position.top - this.$editor.offsetHeight) + 'px';
+        this.$editor.style.left = position.left + 'px';
         if (textSelector.tempAnnotatedNode) {
             this.currentNode = textSelector.tempAnnotatedNode;
         }
     }
 
     hide() {
-        this.$highlight.classList.add('annotation-hide');
+        this.$editor.classList.add('annotation-hide');
     }
 
     inject() {
         let dom = document.createElement('div');
-        dom.innerHTML = highlightTemplate();
-        this.$highlight = dom.firstChild;
-        document.body.append(this.$highlight);
+        dom.innerHTML = editorTemplate();
+        this.$editor = dom.firstChild;
+        document.body.append(this.$editor);
         this.bindEvents();
     }
 
     bindEvents() {
-        let markers = this.$highlight.querySelectorAll('button.marker');
+        let markers = this.$editor.querySelectorAll('button.marker');
         markers.forEach((element) => {
             element.addEventListener(('click'), (event) => {
                 this.changeColor(event);
             });
         });
-        document.querySelector('.annotation-save').addEventListener('click', (event) => {
+/*        document.querySelector('.annotation-save').addEventListener('click', (event) => {
             if (this.currentNode)
             this.currentNode.nodes.forEach((node) => {
                 node.dataset.annotationId = '1234'
             })
-        });
+        });*/
     }
 
     changeColor(event) {

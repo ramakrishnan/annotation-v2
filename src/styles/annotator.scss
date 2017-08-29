@@ -1,18 +1,55 @@
 .annotation-hide {
     display: none;
 }
+
 .annotator-hl {
     background-color: #c2c2c2;
 }
+
 .annotation-float {
     position: absolute;
 }
+
 .yellow {
     background-color: yellow;
 }
+
 .red {
     background-color: #F00;
 }
+
 .green {
     background-color: #0F0;
+}
+
+.annotation-bubble {
+    border-radius: 18px;
+    background: linear-gradient(#f3961c, #f9d835);
+}
+
+.annotation-adder {
+    width: 200px;
+    height: 50px;
+    &.bottom:after {
+        border-color: #F00 transparent;
+        border-style: solid;
+        position: relative;
+        content: '';
+        bottom: -8px;
+        left: 50%;
+        border-width: 15px 15px 0;
+    }
+    .container {
+        display: table;
+        height: 100%;
+        margin: 0 5px;
+        .button-wrapper {
+            display: table-cell;
+            vertical-align: middle;
+            button {
+                vertical-align: middle;
+                height: 35px;
+            }
+        }
+    }
 }
