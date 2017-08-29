@@ -32,18 +32,18 @@ class AdderService {
         let dom = document.createElement('div');
         dom.innerHTML = editorTemplate();
         this.$editor = dom.firstChild;
-        document.body.append(this.$editor);
+        document.body.appendChild(this.$editor);
         this.bindEvents();
     }
 
     bindEvents() {
         let markers = this.$editor.querySelectorAll('button.marker');
-        markers.forEach((element) => {
-            element.addEventListener(('click'), (event) => {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].addEventListener(('click'), (event) => {
                 this.changeColor(event);
             });
-        });
-/*        document.querySelector('.annotation-save').addEventListener('click', (event) => {
+        }
+        /*document.querySelector('.annotation-save').addEventListener('click', (event) => {
             if (this.currentNode)
             this.currentNode.nodes.forEach((node) => {
                 node.dataset.annotationId = '1234'

@@ -35,7 +35,7 @@ class AdderService {
         let dom = document.createElement('div');
         dom.innerHTML = adderTemplate();
         this.$adder = dom.firstChild;
-        document.body.append(this.$adder);
+        document.body.appendChild(this.$adder);
         this.bindEvents();
     }
 
