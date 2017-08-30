@@ -1,0 +1,26 @@
+.annotation-adder {
+    width: 200px;
+    height: 50px;
+    &.bottom:after {
+        border-color: #F00 transparent;
+        border-style: solid;
+        position: relative;
+        content: '';
+        bottom: -8px;
+        left: 50%;
+        border-width: 15px 15px 0;
+    }
+    .container {
+        display: table;
+        height: 100%;
+        margin: 0 5px;
+        .button-wrapper {
+            display: table-cell;
+            vertical-align: middle;
+            button {
+                vertical-align: middle;
+                height: 35px;
+            }
+        }
+    }
+}

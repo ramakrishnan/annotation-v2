@@ -2,7 +2,7 @@ import adderTemplate from './adder.html.hbs';
 import textSelector from '../services/textSelector.js';
 import highlighter from '../services/highlighter.js';
 import editortService from '../editor/service.js';
-var isMobile = require('is-mobile');
+import Utils from '../utils.js'
 
 class AdderService {
 
@@ -16,10 +16,9 @@ class AdderService {
 
     show(position) {
         this.$adder.classList.remove('annotation-hide');
-        if (isMobile()) {
+        if (Utils.isMobile()) {
             this.$adder.style.top = position.top  + 'px';
-            // Use top here
-            this.$adder.classList.add('bottom');
+            this.$adder.classList.add('top');
         } else {
             this.$adder.style.top = (position.top - this.$adder.offsetHeight) + 'px';
             this.$adder.classList.add('bottom');

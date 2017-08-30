@@ -4,21 +4,31 @@ require('./styles/annotator.scss');
 import textSelector from './services/textSelector.js';
 import adderService from './adder/service';
 import editorService from './editor/service';
+import Utils from './utils.js'
 
 class Annotation {
     constructor(element) {
         this.element = element;
         this.selectionTimer;
-/*        this.element.addEventListener('mouseup', (e) => {
-            e.preventDefault();
-            this.checkForEndSelection(e);
-        });*/
-        document.addEventListener('selectionchange', (e) => {
-            clearTimeout(this.selectionTimer);
-            this.selectionTimer = setTimeout(() => {
+        if (Utils.isMobile()) {
+            document.addEventListener('selectionchange', (e) => {
+                clearTimeout(this.selectionTimer);
+                this.selectionTimer = setTimeout(() => {
+                    this.checkForEndSelection(e);
+                }, 500);
+            });
+        } else {
+            /*this.element.addEventListener('mouseup', (e) => {
+                e.preventDefault();
                 this.checkForEndSelection(e);
-            }, 500);
-        });
+            });*/
+            document.addEventListener('selectionchange', (e) => {
+                clearTimeout(this.selectionTimer);
+                this.selectionTimer = setTimeout(() => {
+                    this.checkForEndSelection(e);
+                }, 500);
+            });
+        }
         textSelector.rootElement = element;
     }
 

@@ -10,5 +10,8 @@ class Utils {
         }
         node.setAttribute('class', classNames.join(' '))
     }
+    isMobile() {
+        return false;
+    }
 }
 export default new Utils();
