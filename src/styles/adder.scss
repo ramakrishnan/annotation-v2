@@ -1,14 +1,14 @@
 .annotation-adder {
     width: 200px;
     height: 50px;
-    &.bottom:after {
+    &.top:before {
         border-color: #F00 transparent;
         border-style: solid;
-        position: relative;
+        position: absolute;
         content: '';
-        bottom: -8px;
+        bottom: 100%;
         left: 50%;
-        border-width: 15px 15px 0;
+        border-width: 0 15px 15px;
     }
     .container {
         display: table;

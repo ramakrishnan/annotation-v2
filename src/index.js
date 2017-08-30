@@ -53,8 +53,7 @@ class Annotation {
         let selection = window.getSelection();
         if (selection.isCollapsed === false) {
             let range = selection.getRangeAt(0);
-            let boundingRect = range.getBoundingClientRect();
-            let position = textSelector.getMousePosition(boundingRect);
+            let position = textSelector.getMousePosition(range);
             adderService.show(position);
             editorService.hide();
         } else {

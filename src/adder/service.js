@@ -16,13 +16,8 @@ class AdderService {
 
     show(position) {
         this.$adder.classList.remove('annotation-hide');
-        if (Utils.isMobile()) {
-            this.$adder.style.top = position.top  + 'px';
-            this.$adder.classList.add('top');
-        } else {
-            this.$adder.style.top = (position.top - this.$adder.offsetHeight) + 'px';
-            this.$adder.classList.add('bottom');
-        }
+        this.$adder.style.top = position.top  + 'px';
+        this.$adder.classList.add('top');
         this.$adder.style.left = position.left - (this.$adder.offsetWidth / 2) + 'px';
     }
 

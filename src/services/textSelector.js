@@ -34,13 +34,13 @@ class TextSelector {
         return this._rootElement;
     }
 
-    getMousePosition(boundingRect) {
+    getMousePosition(range) {
         // TODO: See if need further height correction using bounding rect
+        let clientRect = range.getClientRects();
+        let boundingRect = clientRect[clientRect.length - 1];
         let left = boundingRect.left + (boundingRect.width / 2);
         let top = boundingRect.top + window.scrollY;
-        if (isMobile()) {
-            top = top + boundingRect.height;
-        }
+        top = top + boundingRect.height;
         this.popupPosition = {
             top: top,
             left: left

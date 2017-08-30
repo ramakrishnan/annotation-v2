@@ -17,8 +17,9 @@ class AdderService {
     show() {
         let position = textSelector.popupPosition;
         this.$editor.classList.remove('annotation-hide');
-        this.$editor.style.top = (position.top - this.$editor.offsetHeight) + 'px';
-        this.$editor.style.left = position.left + 'px';
+        this.$editor.style.top = position.top  + 'px';
+        this.$editor.classList.add('top');
+        this.$editor.style.left = position.left - (this.$editor.offsetWidth / 2 ) + 'px';
         if (textSelector.tempAnnotatedNode) {
             this.currentNode = textSelector.tempAnnotatedNode;
         }
