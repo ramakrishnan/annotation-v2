@@ -1,0 +1,30 @@
+.annotation-hide {
+    display: none;
+}
+
+.annotator-hl {
+    background-color: $defaultHighlight;
+}
+
+.annotation-float {
+    position: absolute;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.red {
+    background-color: #F00;
+}
+
+.green {
+    background-color: #0F0;
+}
+
+.annotation-bubble {
+    @include  border-radius(15px);
+    margin-top: 10px;
+    background-color: #F5EFEF;
+    @include box-shadow(0 5px 15px rgba(0,0,0,0.2));
+}

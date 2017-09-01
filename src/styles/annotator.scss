@@ -1,33 +1,4 @@
+@import './_mixins.scss';
+@import './base.scss';
 @import './adder.scss';
 @import './editor.scss';
-
-.annotation-hide {
-    display: none;
-}
-
-.annotator-hl {
-    background-color: #c2c2c2;
-}
-
-.annotation-float {
-    position: absolute;
-}
-
-.yellow {
-    background-color: yellow;
-}
-
-.red {
-    background-color: #F00;
-}
-
-.green {
-    background-color: #0F0;
-}
-
-.annotation-bubble {
-    border-radius: 18px;
-    margin-top: 10px;
-    background: linear-gradient(#f3961c, #f9d835);
-}
-

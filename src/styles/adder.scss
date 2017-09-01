@@ -11,14 +11,10 @@
         border-width: 0 15px 15px;
     }
     .container {
-        display: table;
-        height: 100%;
-        margin: 0 5px;
+        @include display-table();
         .button-wrapper {
-            display: table-cell;
-            vertical-align: middle;
+            @include display-cell();
             button {
-                vertical-align: middle;
                 height: 35px;
             }
         }
