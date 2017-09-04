@@ -1,8 +1,8 @@
 .annotation-editor {
-    width: 200px;
-    height: 125px;
+    width: 275px;
+    height: 210px;
     &.top:before {
-        border-color: #F00 transparent;
+        border-color: $annotation-background transparent;
         border-style: solid;
         position: absolute;
         content: '';
@@ -11,14 +11,53 @@
         border-width: 0 15px 15px;
     }
     .container {
-        .highliter {
+        .text-content {
+            text-align: center;
+            padding: 10px 0 0;
+            textarea {
+                resize: none;
+                width: 90%;
+                height: 150px;
+            }
+        }
+        .form_footer {
             @include display-table();
-            .button-wrapper {
+            .color-wrapper {
                 @include display-cell();
+                padding-bottom: 10px;
+                width: 65%;
+                input[type='radio'] {
+                    @include appearance(none);
+                    position: relative;
+                    left: 20px;
+                    &:checked+label { 
+                        border: 1px solid black;
+                    }
+                }
+                label {
+                    height: 32px;
+                    @include border-radius(50%);
+                    width: 32px;
+                    padding: 5px;
+                    padding-right: 20px;
+                    margin-right: 15px;
+                }
+            }
+            .form-controls {
+                text-align: right;
+                padding-right: 20px;
                 button {
-                    height: 25px;
-                    width: 25px;
-                    border-radius: 50%;
+                    @include anchor-button();
+                    padding: 5px;
+                    margin-right: 10px;
+                }
+                button.annotation-save:after {
+                    content: "\2714";
+                    color: #0F0;
+                }
+                button.annotation-cancel:after {
+                    content: "\2715";
+                    color: #F00;
                 }
             }
         }

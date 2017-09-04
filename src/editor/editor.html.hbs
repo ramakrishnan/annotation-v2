@@ -1,18 +1,25 @@
 <div class='annotation-bubble annotation-float annotation-editor annotation-hide'>
     <div class='container'>
-        <div class='text-content'>
-            <textarea></textarea>
-        </div>
-        <div class='highliter'>
-            <div class="button-wrapper">
-                <button class='marker' data-color='yellow'>Yellow</button>
-                <button class='marker' data-color='red'>Red</button>
-                <button class='marker' data-color='green'>Green</button>
+        <form class='annotation-form'>
+            <div class='text-content'>
+                <textarea></textarea>
             </div>
-        </div>
-        <div class='form-controls'>
-            <button class='annotation-save'>Save</button>
-            <button class='annotation-cancel'>Cancel</button>
-        </div>
+            <div class="form_footer">
+                <div class="color-wrapper">
+                        <input id="first_color" type="radio" name="color" class="marker"/>
+                        <label class="yellow" for="first_color"></label>
+
+                        <input id="second_color" type="radio" name="color" class="marker"/>
+                        <label class="red" for="second_color"></label>
+
+                        <input id="third_color" type="radio" name="color" class="marker"/>
+                        <label class="green" for="third_color"></label>
+                </div>
+                <div class='form-controls'>
+                    <button class='annotation-save'></button>
+                    <button class='annotation-cancel'></button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

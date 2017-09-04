@@ -23,8 +23,8 @@
 }
 
 .annotation-bubble {
-    @include  border-radius(15px);
+    @include  border-radius(10px);
     margin-top: 10px;
-    background-color: #F5EFEF;
-    @include box-shadow(0 5px 15px rgba(0,0,0,0.2));
+    background-color: $annotation-background;
+    @include box-shadow(0 5px 15px rgba(64,54,54,0.4));
 }

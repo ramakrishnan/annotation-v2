@@ -2,7 +2,7 @@
     width: 200px;
     height: 50px;
     &.top:before {
-        border-color: #F00 transparent;
+        border-color: $annotation-background transparent;
         border-style: solid;
         position: absolute;
         content: '';
@@ -15,6 +15,7 @@
         .button-wrapper {
             @include display-cell();
             button {
+                @include anchor-button();
                 height: 35px;
             }
         }
