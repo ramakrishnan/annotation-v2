@@ -9,6 +9,15 @@ class AdderService {
 
     constructor() {
         this.$adder;
+        this._extensions = {};
+    }
+
+    set extensions(value) {
+        this._extensions = value;
+    }
+
+    get extensions() {
+        return this._extensions;
     }
 
     get isVisible() {
@@ -20,6 +29,9 @@ class AdderService {
         this.$adder.style.top = position.top  + 'px';
         this.$adder.classList.add('top');
         this.$adder.style.left = position.left - (this.$adder.offsetWidth / 2) + 'px';
+        if (this.extensions['afterShow']) {
+            this.extensions['afterShow'].call(window, this.$adder);
+        }
     }
 
     hide() {
@@ -29,13 +41,15 @@ class AdderService {
     inject() {
         let dom = document.createElement('div');
         dom.innerHTML = adderTemplate();
-        this.$adder = dom.firstChild;
-        document.body.appendChild(this.$adder);
+        this.$adder = document.body.appendChild(dom.firstChild);
         this.bindEvents();
     }
 
     bindEvents() {
-        this.$adder.querySelector('button.highlight').addEventListener(('click'), (event) => {
+        this.$adder.querySelector('button').addEventListener('click', (event) => {
+            if (this.extensions['afterClick']) {
+                this.extensions['afterClick'].call(window, this.$adder, event.currentTarget);
+            }
             this.makeTempSelection(event);
         });
     }

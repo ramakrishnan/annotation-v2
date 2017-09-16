@@ -9,6 +9,15 @@ class AdderService {
         this.$editor;
         this.currentAnnotation;
         this.annotatedNodes = new Map();
+        this._extensions;
+    }
+
+    set extensions(value) {
+        this._extensions = value;
+    }
+
+    get extensions() {
+        return this._extensions;
     }
 
     get isVisible() {
@@ -37,15 +46,14 @@ class AdderService {
     inject() {
         let dom = document.createElement('div');
         dom.innerHTML = editorTemplate();
-        this.$editor = dom.firstChild;
-        document.body.appendChild(this.$editor);
+        this.$editor = document.body.appendChild(dom.firstChild);
         this.bindEvents();
     }
 
     bindEvents() {
         let markers = this.$editor.querySelectorAll('button.marker');
         for (let i = 0; i < markers.length; i++) {
-            markers[i].addEventListener(('click'), (event) => {
+            markers[i].addEventListener('click', (event) => {
                 this.changeColor(event);
             });
         }

@@ -15,18 +15,18 @@ class Annotation {
 
     bindEvents() {
         this.initSelection();
-        this.initReview();
+        document.querySelector('body').addEventListener('click', (event) => {
+            this.initReview();
+        }, true);
     }
 
     initReview() {
-        document.querySelector('body').addEventListener('click', (event) => {
-            let target = event.target;
-            if (target.nodeName.toLowerCase() == 'span' &&
-                target.classList.contains(Constants.defaultColor)) {
-                // Clicked on an highlighted span element
-                editorService.restore(target.dataset.annotationId);
-            }
-        }, true);
+        let target = event.target;
+        if (target.nodeName.toLowerCase() == 'span' &&
+            target.classList.contains(Constants.defaultColor)) {
+            // Clicked on an highlighted span element
+            editorService.restore(target.dataset.annotationId);
+        }
     }
 
     initSelection() {
@@ -49,6 +49,14 @@ class Annotation {
                 }, 500);
             });
         }
+    }
+
+    adderExtension(options) {
+        adderService.extensions = options;
+    }
+
+    editorExtension(options) {
+        editorService.extensions = options;
     }
 
     init() {
