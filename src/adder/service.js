@@ -3,6 +3,7 @@ import textSelector from '../services/textSelector.js';
 import highlighter from '../services/highlighter.js';
 import editortService from '../editor/service.js';
 import Utils from '../utils.js'
+import Constants from '../constants.js';
 
 class AdderService {
 
@@ -36,18 +37,22 @@ class AdderService {
     bindEvents() {
         this.$adder.querySelector('button.highlight').addEventListener(('click'), (event) => {
             this.makeTempSelection(event);
-        })
-        this.$adder.querySelector('button.highlight').addEventListener(('click'), (event) => {
-            this.makeTempSelection(event);
-        })
+        });
     }
 
     makeTempSelection(event) {
         let range = textSelector.getSelectedRange();
+        let nodes;
         if (range.length !== 0) {
-            highlighter.highlight(range);
+            nodes = highlighter.highlightNodes(range);
         }
-        editortService.show();
+        let tempAnnotation = {
+            nodes: nodes,
+            color: Constants.defaultColor,
+            range: range,
+            uuid: 'temp'
+        };
+        editortService.show(tempAnnotation);
     }
 }
 

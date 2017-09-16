@@ -5,25 +5,6 @@ class TextSelector {
     constructor() {
         this._rootElement;
         this.nodes;
-        this.annotatedNoded = new Map();
-        this._tempAnnotatedNode;
-        this._popupPosition;
-    }
-
-    set popupPosition(value) {
-        this._popupPosition = value;
-    }
-
-    get popupPosition() {
-        return this._popupPosition;
-    }
-
-    get tempAnnotatedNode() {
-        return this._tempAnnotatedNode;
-    }
-
-    set tempAnnotatedNode(value) {
-        this._tempAnnotatedNode = value;
     }
 
     set rootElement(value) {
@@ -32,20 +13,6 @@ class TextSelector {
 
     get rootElement() {
         return this._rootElement;
-    }
-
-    getMousePosition(range) {
-        // TODO: See if need further height correction using bounding rect
-        let clientRect = range.getClientRects();
-        let boundingRect = clientRect[clientRect.length - 1];
-        let left = boundingRect.left + (boundingRect.width / 2);
-        let top = boundingRect.top + window.scrollY;
-        top = top + boundingRect.height;
-        this.popupPosition = {
-            top: top,
-            left: left
-        }
-        return this.popupPosition;
     }
 
     getSelectedRange() {
@@ -58,7 +25,7 @@ class TextSelector {
             let parentElement = range.commonAncestorContainer.parentElement;
             let hasAnnotation = false;
             if (parentElement && parentElement.nodeName === 'SPAN') {
-                hasAnnotation = parentElement.className.split(' ').indexOf('annotator-hl') !== -1
+                hasAnnotation = parentElement.classList.contains('annotator-hl');
             }
             if (hasAnnotation === false) {
                 rangePath = xpathRange.fromRange(range, this.rootElement);

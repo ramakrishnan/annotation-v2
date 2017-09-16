@@ -5,10 +5,11 @@ class Highlighter {
     constructor() {
     }
 
-    highlight(range) {
+    highlightNodes(range) {
         let nodes = textSelector.getSelectedNodes(range);
         let highlightedNodes = [];
-        let color = [Constants.defaultColor, Constants.tempHighlight].join(' ');
+        let color = Constants.defaultColor;
+        let spanNodes = [];
         for (let i = 0; i < nodes.length; i++) {
             let node = nodes[i];
             let spanNode = document.createElement('span');
@@ -17,11 +18,9 @@ class Highlighter {
             node.parentNode.insertBefore(spanNode, node);
             node.parentNode.removeChild(node);
             highlightedNodes.push(spanNode);
+            spanNodes.push(spanNode)
         }
-        textSelector.tempAnnotatedNode = {
-            nodes: highlightedNodes,
-            color: Constants.tempHighlight
-        };
+        return spanNodes;
     }
 }
 

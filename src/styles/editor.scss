@@ -30,6 +30,7 @@
                     @include appearance(none);
                     position: relative;
                     left: 20px;
+                    &:focus+label, 
                     &:checked+label { 
                         border: 1px solid black;
                     }
@@ -48,6 +49,7 @@
                 padding-right: 20px;
                 button {
                     @include anchor-button();
+                    text-decoration: none;
                     padding: 5px;
                     margin-right: 10px;
                 }

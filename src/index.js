@@ -1,15 +1,35 @@
-let xpathRange = require('xpath-range');
-
+const xpathRange = require('xpath-range');
 require('./styles/annotator.scss');
 import textSelector from './services/textSelector.js';
 import adderService from './adder/service';
 import editorService from './editor/service';
 import Utils from './utils.js'
+import Constants from './constants.js'
 
 class Annotation {
     constructor(element) {
         this.element = element;
         this.selectionTimer;
+        textSelector.rootElement = element;
+    }
+
+    bindEvents() {
+        this.initSelection();
+        this.initReview();
+    }
+
+    initReview() {
+        document.querySelector('body').addEventListener('click', (event) => {
+            let target = event.target;
+            if (target.nodeName.toLowerCase() == 'span' &&
+                target.classList.contains(Constants.defaultColor)) {
+                // Clicked on an highlighted span element
+                editorService.restore(target.dataset.annotationId);
+            }
+        }, true);
+    }
+
+    initSelection() {
         if (Utils.isMobile()) {
             document.addEventListener('selectionchange', (e) => {
                 clearTimeout(this.selectionTimer);
@@ -29,31 +49,19 @@ class Annotation {
                 }, 500);
             });
         }
-        textSelector.rootElement = element;
-    }
-
-    bindEvents() {
-        document.addEventListener('click', (event) => {
-            let target = event.target;
-            if (target.nodeName.toLowerCase() == 'span' &&
-                target.classList.indexOf(Constants.tempHighlight) == -1 &&
-                target.classList.indexOf(Constants.defaultColor) !== -1) {
-                // Clicked on an highlighted span element
-                console.log(target.dataset.annotationId)
-            }
-        });
     }
 
     init() {
         adderService.inject();
         editorService.inject();
+        this.bindEvents();
     }
 
     checkForEndSelection(event) {
         let selection = window.getSelection();
         if (selection.isCollapsed === false) {
             let range = selection.getRangeAt(0);
-            let position = textSelector.getMousePosition(range);
+            let position = Utils.getNodePosition(range);
             adderService.show(position);
             editorService.hide();
         } else {
