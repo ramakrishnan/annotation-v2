@@ -79,14 +79,16 @@ class AdderService {
     }
 
     onsave(event) {
+        let form = event.currentTarget;
         if (this.currentAnnotation && this.currentAnnotation.uuid === 'temp') {
             this.currentAnnotation.uuid = (new Date()).getTime().toString();
             this.currentAnnotation.nodes.forEach((node) => {
                 node.dataset.annotationId = this.currentAnnotation.uuid
             })
         }
+        this.changeHighlightColor(this.currentAnnotation.color, form.color.value);
         for(let attr in this.extensions.attributes) {
-            this.currentAnnotation[attr] = event.currentTarget[attr].value;
+            this.currentAnnotation[attr] = form[attr].value;
         }
         this.annotatedNodes.set(this.currentAnnotation.uuid, this.currentAnnotation);
         this.hide();
@@ -100,14 +102,12 @@ class AdderService {
         this.hide();
     }
 
-    changeColor(event) {
-        let color = event.target.getAttribute('data-color');
+    changeHighlightColor(prevColor, color) {
         let nodes = this.currentAnnotation.nodes;
-        let currentColor = this.currentAnnotation.color;
         for (let i = 0; i < nodes.length; i++) {
-            Utils.replaceClassName(nodes[i], currentColor, color);
+            nodes[i].classList.remove(Constants.COLOR.temp);
+            Utils.replaceClassName(nodes[i], prevColor, color);
         }
-        this.currentAnnotation.color = color;
     }
 }
 
