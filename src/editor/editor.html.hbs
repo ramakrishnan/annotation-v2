@@ -2,21 +2,17 @@
     <div class='container'>
         <form class='annotation-form'>
             <div class='text-content'>
-                <textarea></textarea>
+                <textarea name='description'></textarea>
             </div>
             <div class="form_footer">
                 <div class="color-wrapper">
-                        <input id="first_color" type="radio" name="color" class="marker"/>
-                        <label class="yellow" for="first_color"></label>
-
-                        <input id="second_color" type="radio" name="color" class="marker"/>
-                        <label class="red" for="second_color"></label>
-
-                        <input id="third_color" type="radio" name="color" class="marker"/>
-                        <label class="green" for="third_color"></label>
+                        {{#each colors}}
+                        <input id="color_{{this}}" type="radio" name="color" class="marker" value="{{this}}"/>
+                        <label class="{{this}}" for="color_{{this}}"></label>
+                        {{/each}}
                 </div>
                 <div class='form-controls'>
-                    <button class='annotation-save'></button>
+                    <button type='submit' class='annotation-save'></button>
                     <button class='annotation-cancel'></button>
                 </div>
             </div>

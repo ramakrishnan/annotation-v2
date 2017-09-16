@@ -23,7 +23,7 @@ class Annotation {
     initReview() {
         let target = event.target;
         if (target.nodeName.toLowerCase() == 'span' &&
-            target.classList.contains(Constants.defaultColor)) {
+            target.classList.contains(Constants.COLOR.default)) {
             // Clicked on an highlighted span element
             editorService.restore(target.dataset.annotationId);
         }
@@ -51,11 +51,11 @@ class Annotation {
         }
     }
 
-    adderExtension(options) {
+    adderExtensions(options) {
         adderService.extensions = options;
     }
 
-    editorExtension(options) {
+    editorExtensions(options) {
         editorService.extensions = options;
     }
 

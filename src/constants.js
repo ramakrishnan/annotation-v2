@@ -1,4 +1,6 @@
 export default {
-    defaultColor: 'annotator-hl',
-    tempHighlight: 'annotator-temp'
+    COLOR:{
+        temp: 'annotator-temp',
+        default: 'annotator-hl'
+    }
 }

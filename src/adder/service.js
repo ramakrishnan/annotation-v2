@@ -62,7 +62,6 @@ class AdderService {
         }
         let tempAnnotation = {
             nodes: nodes,
-            color: Constants.defaultColor,
             range: range,
             uuid: 'temp'
         };

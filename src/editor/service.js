@@ -2,6 +2,7 @@ import editorTemplate from './editor.html.hbs';
 import textSelector from '../services/textSelector.js';
 import highlighter from '../services/highlighter.js';
 import Utils from '../utils.js';
+import Constants from '../constants.js';
 
 class AdderService {
 
@@ -37,6 +38,14 @@ class AdderService {
         this.$editor.style.top = position.top  + 'px';
         this.$editor.classList.add('top');
         this.$editor.style.left = position.left - (this.$editor.offsetWidth / 2 ) + 'px';
+        this.setFormValues();
+    }
+
+    setFormValues() {
+        let form = this.$editor.querySelector('form');
+        for(let attr in this.extensions.attributes) {
+            form[attr].value = this.currentAnnotation[attr] || this.extensions.attributes[attr];
+        }
     }
 
     hide() {
@@ -45,7 +54,7 @@ class AdderService {
 
     inject() {
         let dom = document.createElement('div');
-        dom.innerHTML = editorTemplate();
+        dom.innerHTML = editorTemplate(this.extensions.templateData);
         this.$editor = document.body.appendChild(dom.firstChild);
         this.bindEvents();
     }
@@ -57,7 +66,7 @@ class AdderService {
                 this.changeColor(event);
             });
         }
-        this.$editor.querySelector('.annotation-save').addEventListener('click', (event) => {
+        this.$editor.querySelector('.annotation-form').addEventListener('submit', (event) => {
             event.preventDefault();
             event.stopPropagation();
             this.onsave(event);
@@ -75,6 +84,9 @@ class AdderService {
             this.currentAnnotation.nodes.forEach((node) => {
                 node.dataset.annotationId = this.currentAnnotation.uuid
             })
+        }
+        for(let attr in this.extensions.attributes) {
+            this.currentAnnotation[attr] = event.currentTarget[attr].value;
         }
         this.annotatedNodes.set(this.currentAnnotation.uuid, this.currentAnnotation);
         this.hide();

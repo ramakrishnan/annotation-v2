@@ -8,7 +8,7 @@ class Highlighter {
     highlightNodes(range) {
         let nodes = textSelector.getSelectedNodes(range);
         let highlightedNodes = [];
-        let color = Constants.defaultColor;
+        let color = Constants.COLOR.default;
         let spanNodes = [];
         for (let i = 0; i < nodes.length; i++) {
             let node = nodes[i];
