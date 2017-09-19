@@ -65,6 +65,7 @@ class AdderService {
             range: range,
             uuid: 'temp'
         };
+        this.hide();
         editortService.show(tempAnnotation);
     }
 }

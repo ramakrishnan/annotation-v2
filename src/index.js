@@ -30,25 +30,14 @@ class Annotation {
     }
 
     initSelection() {
-        if (Utils.isMobile()) {
-            document.addEventListener('selectionchange', (e) => {
+        document.addEventListener('selectionchange', (e) => {
+            if (editorService.isVisible === false) {
                 clearTimeout(this.selectionTimer);
                 this.selectionTimer = setTimeout(() => {
                     this.checkForEndSelection(e);
                 }, 500);
-            });
-        } else {
-            /*this.element.addEventListener('mouseup', (e) => {
-                e.preventDefault();
-                this.checkForEndSelection(e);
-            });*/
-            document.addEventListener('selectionchange', (e) => {
-                clearTimeout(this.selectionTimer);
-                this.selectionTimer = setTimeout(() => {
-                    this.checkForEndSelection(e);
-                }, 500);
-            });
-        }
+            }
+        });
     }
 
     adderExtensions(options) {
