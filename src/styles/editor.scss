@@ -1,5 +1,5 @@
 .annotation-editor {
-    width: 275px;
+    width: 300px;
     height: 210px;
     &.top:before {
         border-color: $annotation-background transparent;
@@ -25,7 +25,7 @@
             .color-wrapper {
                 @include display-cell();
                 padding-bottom: 10px;
-                width: 65%;
+                width: 50%;
                 input[type='radio'] {
                     @include appearance(none);
                     position: relative;
@@ -41,7 +41,7 @@
                     width: 32px;
                     padding: 5px;
                     padding-right: 20px;
-                    margin-right: 15px;
+                    margin-right: 5px;
                 }
             }
             .form-controls {

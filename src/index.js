@@ -25,7 +25,7 @@ class Annotation {
         if (target.nodeName.toLowerCase() == 'span' &&
             target.classList.contains(Constants.COLOR.default)) {
             // Clicked on an highlighted span element
-            editorService.restore(target.dataset.annotationId);
+            editorService.edit(target.dataset.annotationId);
         }
     }
 

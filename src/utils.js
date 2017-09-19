@@ -26,5 +26,15 @@ class Utils {
     isMobile() {
         return false;
     }
+
+    removeHighlight(nodes) {
+        for(let i in nodes) {
+            let node = nodes[i];
+            let textNode = document.createTextNode(node.textContent);
+            node.parentNode.insertBefore(textNode, node);
+            node.parentNode.removeChild(node);
+            textNode.parentNode.normalize();
+        }
+    }
 }
 export default new Utils();

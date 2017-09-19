@@ -1,6 +1,4 @@
 import editorTemplate from './editor.html.hbs';
-import textSelector from '../services/textSelector.js';
-import highlighter from '../services/highlighter.js';
 import Utils from '../utils.js';
 import Constants from '../constants.js';
 
@@ -25,7 +23,7 @@ class AdderService {
         return this.$editor.classList.contains('annotation-hide') == false
     }
 
-    restore(annotationId) {
+    edit(annotationId) {
         let annotation = this.annotatedNodes.get(annotationId);
         this.show(annotation);
     }
@@ -76,6 +74,11 @@ class AdderService {
             event.stopPropagation();
             this.oncancel(event);
         });
+        this.$editor.querySelector('.annotation-delete').addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.ondelete(event);
+        });
     }
 
     onsave(event) {
@@ -97,7 +100,14 @@ class AdderService {
     oncancel(event) {
         if (this.currentAnnotation && this.currentAnnotation.uuid === 'temp') {
             this.annotatedNodes.delete('temp')
+            Utils.removeHighlight(this.currentAnnotation.nodes);
         }
+        this.currentAnnotation = null;
+        this.hide();
+    }
+
+    ondelete(event) {
+        Utils.removeHighlight(this.currentAnnotation.nodes);
         this.currentAnnotation = null;
         this.hide();
     }
