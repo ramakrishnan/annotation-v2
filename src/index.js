@@ -37,7 +37,7 @@ class Annotation {
                     this.checkForEndSelection(e);
                 }, 500);
             }
-        });
+        }, false);
     }
 
     adderExtensions(options) {

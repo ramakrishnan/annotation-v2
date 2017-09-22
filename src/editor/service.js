@@ -7,7 +7,7 @@ class AdderService {
     constructor() {
         this.$editor;
         this.currentAnnotation;
-        this.annotatedNodes = new Map();
+        this.annotatedNodes = {};
         this._extensions;
     }
 
@@ -24,7 +24,7 @@ class AdderService {
     }
 
     edit(annotationId) {
-        let annotation = this.annotatedNodes.get(annotationId);
+        let annotation = this.annotatedNodes[annotationId];
         this.show(annotation);
     }
 
@@ -93,13 +93,13 @@ class AdderService {
         for(let attr in this.extensions.attributes) {
             this.currentAnnotation[attr] = form[attr].value;
         }
-        this.annotatedNodes.set(this.currentAnnotation.uuid, this.currentAnnotation);
+        this.annotatedNodes[this.currentAnnotation.uuid] = this.currentAnnotation;
         this.hide();
     }
 
     oncancel(event) {
         if (this.currentAnnotation && this.currentAnnotation.uuid === 'temp') {
-            this.annotatedNodes.delete('temp')
+            delete this.annotatedNodes['temp'];
             Utils.removeHighlight(this.currentAnnotation.nodes);
         }
         this.currentAnnotation = null;
