@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/karma start"
+    "test": "./node_modules/.bin/karma start",
+    "build": "npm-run-all build:dev",
+    "build:dev": "webpack --env=dev --progress --colors --watch",
+    "build:prod": "webpack --env=prod --progress --colors --optimize-minimize"
   },
   "author": "",
   "license": "ISC",
