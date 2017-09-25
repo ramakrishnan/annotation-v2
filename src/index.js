@@ -14,13 +14,15 @@ class Annotation {
     }
 
     bindEvents() {
-        this.initSelection();
+        document.addEventListener('selectionchange', (event) => {
+            this.initSelection(event);
+        }, false);
         document.querySelector('body').addEventListener('click', (event) => {
-            this.initReview();
+            this.initReview(event);
         }, true);
     }
 
-    initReview() {
+    initReview(event) {
         let target = event.target;
         if (target.nodeName.toLowerCase() == 'span' &&
             target.classList.contains(Constants.COLOR.default)) {
@@ -29,15 +31,13 @@ class Annotation {
         }
     }
 
-    initSelection() {
-        document.addEventListener('selectionchange', (e) => {
-            if (editorService.isVisible === false) {
-                clearTimeout(this.selectionTimer);
-                this.selectionTimer = setTimeout(() => {
-                    this.checkForEndSelection(e);
-                }, 500);
-            }
-        }, false);
+    initSelection(event) {
+        if (editorService.isVisible === false) {
+            clearTimeout(this.selectionTimer);
+            this.selectionTimer = setTimeout(() => {
+                this.checkForEndSelection(event);
+            }, 500);
+        }
     }
 
     adderExtensions(options) {

@@ -8,7 +8,7 @@ class AdderService {
         this.$editor;
         this.currentAnnotation;
         this.annotatedNodes = {};
-        this._extensions;
+        this._extensions = []
     }
 
     set extensions(value) {

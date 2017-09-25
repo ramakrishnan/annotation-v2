@@ -50,13 +50,14 @@ module.exports = {
             ]
             // loader: 'eslint-loader',
         }, {
-            enforce: 'post',
+            enforce: 'pre',
             test: /\.js$/,
+            include: /src/,
+            exclude: /\.spec.js$/,
             use: {
                 loader: 'istanbul-instrumenter-loader',
                 options: { esModules: true }
-            },
-            include: /src/,
+            }
         }]
     },
     watch: false
