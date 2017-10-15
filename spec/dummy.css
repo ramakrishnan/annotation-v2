@@ -1,0 +1,33 @@
+.box-margin {
+	margin: auto 10%;
+}
+h1 .big-font {
+	font-size: 40px;
+}
+h1 .small-font {
+	font-size: 30px;
+}
+.box-margin header {
+	font-size: 20px;
+	font-weight: bold;
+}
+.box-margin p {
+	line-height: 26px;
+	font-size: 25px;
+	text-align: center;
+	width: 70%;
+}
+
+/*----------------------- */
+.no-box-margin {
+	margin: auto 2%;
+}
+.no-box-margin header {
+	font-size: 20px;
+	font-weight: bold;
+}
+.no-box-margin p {
+	line-height: 26px;
+	font-size: 25px;
+	width: 70%;
+}

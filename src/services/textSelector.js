@@ -105,8 +105,18 @@ class TextSelector {
             firstNode.nextSibling.splitText(range.endOffset - range.startOffset);
             nodes[0] = firstNode.nextSibling;
         } else if (nodeLength > 1) {
-            let firstNode = nodes[0];
+            // It is preferred to get the index of the text node selected.
+            // This will take care of skipping appropriate <br/> tags within a 
+            // parent element to reach the needed text node.
+            if (startNode !== endNode) {
+                let startTextNodeIndex = this.getTextNodeIndex(range.start);
+                if ((startTextNodeIndex -1) > 0) {
+                    nodes.splice(0, (startTextNodeIndex - 1));
+                    nodeLength = nodes.length;
+                }
+            }
             let lastNode = nodes[nodeLength - 1];
+            let firstNode = nodes[0];
             nodes[0] = firstNode.splitText(range.startOffset);
             nodes[nodeLength - 1] = lastNode.splitText(range.endOffset).previousSibling;
         }

@@ -8,7 +8,7 @@ module.exports = {
         'annotator': ['./src/index.js']
     },
     output: {
-        path: __dirname + '/public',
+        path: __dirname + '/../public',
         filename: '[name].js',
         libraryTarget: 'var',
         library: 'Annotator'
