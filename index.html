@@ -14,8 +14,28 @@
         var content = document.createElement('div');
         content.innerHTML = __template;
     	document.body.appendChild(content.firstChild);
-        var ann = new Annotator(document.body);
-        ann.init();
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var a = new Annotator(document.body);
+            a.adderExtensions({
+                afterShow: function(adder) {
+                    console.log('Adder template is', adder)
+                },
+                afterClick: function(adder, element) {
+                    console.log('adder', adder);
+                    console.log('element', element);
+                }
+            })
+            a.editorExtensions({
+                templateData:{
+                    colors: [ 'yellow', 'red', 'green'],
+                },
+                attributes: {
+                    'color': 'red',
+                    'description': ''
+                }
+            })
+            a.init();
+        });
     </script>
 </body>
 

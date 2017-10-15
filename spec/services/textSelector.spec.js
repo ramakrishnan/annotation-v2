@@ -8,7 +8,7 @@ var toStringStub;
 
 TextSelectorService.rootElement = document.body;
 
-describe('Text Selecto service', () => {
+describe('Text Selector service', () => {
     describe('getSelectedRange', () => {
         before(() => {
             var content = document.createElement('div');
@@ -83,7 +83,7 @@ describe('Text Selecto service', () => {
             };
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(1);
-            expect(node[0].data).to.equal('OVERVIEW');
+            expect(node[0].textContent).to.equal('OVERVIEW');
         })
 
         it('When an entire line is selected, which has two span tags within it', () => {
@@ -96,8 +96,8 @@ describe('Text Selecto service', () => {
             };
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(2);
-            expect(node[0].data).to.equal('Hellow ');
-            expect(node[1].data).to.equal('World');
+            expect(node[0].textContent).to.equal('Hellow ');
+            expect(node[1].textContent).to.equal('World');
         })
         it('When middle few words are selected from line', () => {
             let range = {
@@ -109,7 +109,7 @@ describe('Text Selecto service', () => {
             }
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(1);
-            expect(node[0].data).to.equal("test all possible");
+            expect(node[0].textContent).to.equal("test all possible");
         })
         it('When selected across different nodes which has multiple brs', () => {
             let range = {
@@ -121,9 +121,9 @@ describe('Text Selecto service', () => {
             }
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(3);
-            expect(node[0].data).to.equal('annotation ');
-            expect(node[1].data).to.equal(' :) ');
-            expect(node[2].data).to.equal(' A huge paragraph');
+            expect(node[0].textContent).to.equal('annotation ');
+            expect(node[1].textContent).to.equal(' :) ');
+            expect(node[2].textContent).to.equal(' A huge paragraph');
         })
         it('When selected across different nodes which do not have brs in them', () => {
             let range = {
@@ -135,8 +135,8 @@ describe('Text Selecto service', () => {
             }
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(2);
-            expect(node[0].data).to.equal('body content');
-            expect(node[1].data).to.equal(' A huge paragraph');
+            expect(node[0].textContent).to.equal('body content');
+            expect(node[1].textContent).to.equal(' A huge paragraph');
         })
         it('When selected within a same node which has brs', () => {
             let range = {
@@ -148,8 +148,8 @@ describe('Text Selecto service', () => {
             }
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(2);
-            expect(node[0].data).to.equal('we will test all possible contents ');
-            expect(node[1].data).to.equal('                     for annotation');
+            expect(node[0].textContent).to.equal('we will test all possible contents ');
+            expect(node[1].textContent).to.equal('                     for annotation');
         })
     })
 })
