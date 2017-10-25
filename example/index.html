@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Annotator V2</title>
+    <script type="text/javascript" src="../public/annotator.js"></script>
+    <script type="text/javascript" src="./template.html.js"></script>
+    <script type="text/javascript" src="./usage.js"></script>
+    <link rel="stylesheet" type="text/css" href="../public/annotator.css">
+    <link rel="stylesheet" type="text/css" href="./site.css">
+</head>
+
+<body>
+    <script type="text/javascript">
+        var content = document.createElement('div');
+        content.innerHTML = __template;
+    	document.body.appendChild(content.firstChild);
+    </script>
+</body>
+
+</html>

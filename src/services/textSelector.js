@@ -65,49 +65,26 @@ class TextSelector {
                     }
                 }
             }, false);
-        let startNodeFound = false;
         if (startNode !== endNode) {
-            let textNode = tree.nextNode();
-            while (textNode) {
-                let currentParent = textNode.parentNode;
-                if (currentParent == startNode) {
-                    startNodeFound = true;
-                }
-                if (startNodeFound) {
-                    nodes.push(textNode);
-                }
-                if (currentParent == endNode) {
-                    break
-                }
-                textNode = tree.nextNode();
-            }
+            nodes = this.getTextNodesBetweenNodes(startNode, endNode, tree);
         } else {
-            // This is a case where an entire node is selected or just a word in a node is selected.
-            // Split the text nodes by start and end offset and pick the middle one
-            // Get the index of the txt node selected
-            let startTextNodeIndex = this.getTextNodeIndex(range.start);
-            let endTextNodeIndex = this.getTextNodeIndex(range.end);
-            let textNode;
-            if (endTextNodeIndex == startTextNodeIndex) {
-                textNode = this.getNodeForIndex(startNode, startTextNodeIndex);
-                nodes.push(textNode);
-            } else {
-                textNode = this.getNodeForIndex(startNode, startTextNodeIndex);
-                nodes.push(textNode);
-                textNode = this.getNodeForIndex(startNode, endTextNodeIndex);
-                nodes.push(textNode);
-            }
+            nodes = this.getTextNodesFromNode(startNode, range.start, range.end);
         }
         let nodeLength = nodes.length;
+
+        // Trim the first and last node to meet the start and end offset 
+        // from selection
         if (nodeLength == 1) {
             let firstNode = nodes[0];
             let splitNode = firstNode.splitText(range.startOffset);
             firstNode.nextSibling.splitText(range.endOffset - range.startOffset);
             nodes[0] = firstNode.nextSibling;
         } else if (nodeLength > 1) {
+            // When node length is more than 1 and start and end node are same.
+            // It is more likely that there are few <br> which resulted in more then
+            // one text node.
             // It is preferred to get the index of the text node selected.
-            // This will take care of skipping appropriate <br/> tags within a 
-            // parent element to reach the needed text node.
+            // And remove the other nodes before them.
             if (startNode !== endNode) {
                 let startTextNodeIndex = this.getTextNodeIndex(range.start);
                 if ((startTextNodeIndex -1) > 0) {
@@ -123,12 +100,67 @@ class TextSelector {
         return nodes;
     }
 
+    // This is a case where an entire node is selected or just a word in a node is selected.
+    // Split the text nodes by start and end offset and pick the middle one
+    // Get the index of the txt node selected
+    getTextNodesFromNode(startNode, startRange, endRange) {
+        let nodes = [];
+        let startTextNodeIndex = this.getTextNodeIndex(startRange);
+        let endTextNodeIndex = this.getTextNodeIndex(endRange);
+        let textNode;
+        if (endTextNodeIndex == startTextNodeIndex) {
+            textNode = this.getTextNodeForIndex(startNode, startTextNodeIndex);
+            nodes.push(textNode);
+        } else {
+            textNode = this.getTextNodeForIndex(startNode, startTextNodeIndex);
+            nodes.push(textNode);
+            textNode = this.getTextNodeForIndex(startNode, endTextNodeIndex);
+            nodes.push(textNode);
+        }
+        return nodes;
+    }
+
+    // Traverse the DOM tree and pick all text nodes 
+    // which fall between start and end node
+    getTextNodesBetweenNodes(startNode, endNode, tree) {
+        let nodes = [];
+        let startNodeFound = false;
+        let textNode = tree.nextNode();
+        while (textNode) {
+            let currentParent = textNode.parentNode;
+            if (currentParent == startNode) {
+                startNodeFound = true;
+            }
+            if (startNodeFound) {
+                nodes.push(textNode);
+            }
+            if (currentParent == endNode) {
+                break
+            }
+            textNode = tree.nextNode();
+        }
+        return nodes;
+    }
+
+    /* 
+     @return Integer [index]
+     This functin returns the index of the text node w.r.t the parent node
+    */
     getTextNodeIndex(rangeStr) {
-        let strIndex = rangeStr.lastIndexOf('[');
+        let strIndex = rangeStr.lastIndexOf('text()[');
+        if (strIndex != -1) {
+            strIndex = strIndex + 6;
+        }
         return parseInt(rangeStr.substr(strIndex + 1, rangeStr.length));
     }
 
-    getNodeForIndex(startNode, index) {
+    /*
+    @params startNode [DOM]
+    @params index [Number]
+    A start node may hane several text nodes, 
+    return the text node for the given index
+    */
+    getTextNodeForIndex(startNode, index) {
         let textNodeCount = 0;
         let textNode;
         let childNodes = startNode.childNodes;
