@@ -1,7 +1,6 @@
-// import EditorService from '../src/editor/service.js'
-import Annotator from '../../src/index.js';
-import editorService from '../../src/editor/service.js';
-import adderService from '../../src/adder/service.js';
+import Annotator from '../src/index.js';
+import editorService from '../src/editor/service.js';
+import adderService from '../src/adder/service.js';
 
 let ann;
 let adderInjectStub, editorInjectStub;
