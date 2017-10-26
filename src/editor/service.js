@@ -1,13 +1,14 @@
 import editorTemplate from './editor.html.hbs';
 import Utils from '../utils.js';
 import Constants from '../constants.js';
+var Map = require('es6-map/polyfill');
 
 class AdderService {
 
     constructor() {
         this.$editor;
         this.currentAnnotation;
-        this.annotatedNodes = {};
+        this.annotatedNodes = new Map()
         this._extensions = []
     }
 
@@ -24,7 +25,7 @@ class AdderService {
     }
 
     edit(annotationId) {
-        let annotation = this.annotatedNodes[annotationId];
+        let annotation = this.annotatedNodes.get(annotationId);
         this.show(annotation);
     }
 
@@ -93,13 +94,13 @@ class AdderService {
         for(let attr in this.extensions.attributes) {
             this.currentAnnotation[attr] = form[attr].value;
         }
-        this.annotatedNodes[this.currentAnnotation.uuid] = this.currentAnnotation;
+        this.annotatedNodes.set(this.currentAnnotation.uuid, this.currentAnnotation);
         this.hide();
     }
 
     oncancel(event) {
         if (this.currentAnnotation && this.currentAnnotation.uuid === 'temp') {
-            delete this.annotatedNodes['temp'];
+            this.annotatedNodes.delete('temp');
             Utils.removeHighlight(this.currentAnnotation.nodes);
         }
         this.currentAnnotation = null;
