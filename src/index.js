@@ -1,4 +1,3 @@
-const xpathRange = require('xpath-range');
 require('./styles/annotator.scss');
 import textSelector from './services/textSelector.js';
 import adderService from './adder/service';

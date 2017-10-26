@@ -1,4 +1,4 @@
-let xpathRange = require('xpath-range');
+const xpathRange = require('xpath-range');
 var isMobile = require('is-mobile');
 
 class TextSelector {

@@ -1,10 +1,15 @@
 // import EditorService from '../src/editor/service.js'
 import Annotator from '../../src/index.js';
 import editorService from '../../src/editor/service.js';
-var ann;
+import adderService from '../../src/adder/service.js';
+
+let ann;
+let adderInjectStub, editorInjectStub;
 describe('Annotation', () => {
     before(() => {
         ann = new Annotator(document.body);
+        adderInjectStub = sinon.stub(adderService, 'inject');
+        editorInjectStub = sinon.stub(editorService, 'inject');
     })
     describe('Bind events', () => {
         it('Should Bind Events for select change', () => {
@@ -57,6 +62,7 @@ describe('Annotation', () => {
     });
 
     after(() => {
-        // document.getElementsByClassName('annotation-float').remove();
+        adderInjectStub.restore();
+        editorInjectStub.restore();
     })
 })
