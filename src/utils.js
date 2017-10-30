@@ -36,5 +36,25 @@ class Utils {
             textNode.parentNode.normalize();
         }
     }
+
+    removeClass(element, className) {
+        let classList = element.getAttribute('class').split(' ');
+        let index = classList.indexOf(className);
+        if (index != -1) {
+            classList.splice(index, 1);
+        }
+        element.setAttribute('class', classList.join(' '));
+        return true;
+    }
+
+    addClass(element, className) {
+        let classList = element.getAttribute('class').split(' ');
+        let index = classList.indexOf(className);
+        if (index == -1) {
+            classList.push(className);
+        }
+        element.setAttribute('class', classList.join(' '));
+        return true;
+    }
 }
 export default new Utils();

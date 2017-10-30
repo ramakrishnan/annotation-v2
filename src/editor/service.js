@@ -33,15 +33,16 @@ class AdderService {
         this.currentAnnotation = annotation;
         let node = this.currentAnnotation.nodes[this.currentAnnotation.nodes.length - 1];
         let position = Utils.getNodePosition(node);
-        this.$editor.classList.remove('annotation-hide');
+        Utils.removeClass(this.$editor, 'annotation-hide');
         this.$editor.style.top = position.top  + 'px';
-        this.$editor.classList.add('top');
+        Utils.addClass(this.$editor, 'top');
         this.$editor.style.left = position.left - (this.$editor.offsetWidth / 2 ) + 'px';
         this.setFormValues();
     }
 
     setFormValues() {
         let form = this.$editor.querySelector('form');
+        // FIXE: This fails unit test
         for(let attr in this.extensions.attributes) {
             form[attr].value = this.currentAnnotation[attr] || this.extensions.attributes[attr];
         }
