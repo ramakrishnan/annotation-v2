@@ -48,4 +48,12 @@ rangeMapper.set('selected-within-same-node-which-haa-brs', {
     "endOffset": 3,
     "text": "for annotation  :)"
 })
+
+rangeMapper.set('span-tag-crossing-texts-with-brs', {
+    "start": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[2]",
+    "end": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[4]",
+    "startOffset": 52,
+    "endOffset": 3,
+    "text": "contents I am a span tag                     for annotation  :)"
+})
 export default rangeMapper

@@ -116,5 +116,14 @@ describe('Text Selector service', () => {
             expect(node[0].textContent).to.equal('for annotation ');
             expect(node[1].textContent).to.equal(' :)');
         })
+        it('When a span tag crosses a node which has list of brs', () => {
+          let range = rangeMapper.get('span-tag-crossing-texts-with-brs');
+          let node = TextSelectorService.getSelectedNodes(range);
+          expect(node.length).to.equal(4);
+          expect(node[0].textContent).to.equal('contents ');
+          expect(node[1].textContent).to.equal('I am a span tag');
+          expect(node[2].textContent).to.equal('                     for annotation ');
+          expect(node[3].textContent).to.equal(' :)');
+        })
     })
 })
