@@ -1,5 +1,6 @@
 let xpathRange = require('xpath-range');
 import TextSelectorService from '../../src/services/textSelector.js';
+import rangeMapper from '../range-data.js';
 
 var getRangeAtStub;
 var removeRangeAtStub;
@@ -74,82 +75,46 @@ describe('Text Selector service', () => {
             document.getElementById('dummy-html').remove();
         })
         it('When only one word is selected', () => {
-            let range = {
-            "start": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[1]",
-            "end": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[1]",
-            "startOffset": 0,
-            "endOffset": 8,
-            "text": "OVERVIEW"
-            };
+            let range = rangeMapper.get('only-one-word-selected')
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(1);
             expect(node[0].textContent).to.equal('OVERVIEW');
         })
 
         it('When an entire line is selected, which has two span tags within it', () => {
-            let range = {
-                "start": "/div[1]/div[1]/header[1]/h1[1]/span[1]/text()[1]",
-                "end": "/div[1]/div[1]/header[1]/h1[1]/span[2]/text()[1]",
-                "startOffset": 0,
-                "endOffset": 5,
-                "text": "Hellow World"
-            };
+            let range = rangeMapper.get('entire-line-with-2-spans');
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(2);
             expect(node[0].textContent).to.equal('Hellow ');
             expect(node[1].textContent).to.equal('World');
         })
         it('When middle few words are selected from line', () => {
-            let range = {
-                "start": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[2]",
-                "end": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[2]",
-                "startOffset": 34,
-                "endOffset": 51,
-                "text": "test all possible"
-            }
+            let range = rangeMapper.get('few-middle-words-in-line-selected');
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(1);
             expect(node[0].textContent).to.equal("test all possible");
         })
         it('When selected across different nodes which has multiple brs', () => {
-            let range = {
-                "start": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[3]",
-                "end": "/div[1]/div[1]/p[1]/text()[1]",
-                "startOffset": 25,
-                "endOffset": 17,
-                "text": "annotation  :)                                 A huge paragraph"
-            }
+            let range = rangeMapper.get('selected-across-nodes-by-crossing-brs');
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(3);
-            expect(node[0].textContent).to.equal('annotation ');
+            expect(node[0].textContent).to.equal('for annotation ');
             expect(node[1].textContent).to.equal(' :) ');
             expect(node[2].textContent).to.equal(' A huge paragraph');
         })
         it('When selected across different nodes which do not have brs in them', () => {
-            let range = {
-                "start": "/div[1]/div[2]/header[1]/text()[1]",
-                "end": "/div[1]/div[2]/p[1]/text()[1]",
-                "startOffset": 5,
-                "endOffset": 17,
-                "text": "body content          A huge paragraph"
-            }
+            let range = rangeMapper.get('selected-across-nodes-without-crossing-a-br');
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(2);
             expect(node[0].textContent).to.equal('body content');
             expect(node[1].textContent).to.equal(' A huge paragraph');
         })
         it('When selected within a same node which has brs', () => {
-            let range = {
-                "start": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[2]",
-                "end": "/div[1]/div[1]/header[1]/div[1]/h1[1]/text()[3]",
-                "startOffset": 26,
-                "endOffset": 35,
-                "text": "we will test all possible contents                      for annotation"
-            }
+            let range = rangeMapper.get('selected-within-same-node-which-haa-brs');
             let node = TextSelectorService.getSelectedNodes(range);
             expect(node.length).to.equal(2);
-            expect(node[0].textContent).to.equal('we will test all possible contents ');
-            expect(node[1].textContent).to.equal('                     for annotation');
+            expect(node[0].textContent).to.equal('for annotation ');
+            expect(node[1].textContent).to.equal(' :)');
         })
     })
 })

@@ -86,11 +86,11 @@ class TextSelector {
             // It is preferred to get the index of the text node selected.
             // And remove the other nodes before them.
             if (startNode !== endNode) {
-                let startTextNodeIndex = this.getTextNodeIndex(range.start);
-                if ((startTextNodeIndex -1) > 0) {
-                    nodes.splice(0, (startTextNodeIndex - 1));
-                    nodeLength = nodes.length;
-                }
+                let startTextNodePos = this.getTextNodePosition(startNode, range.start);
+                let startText = startNode.childNodes[startTextNodePos];
+                let startIndex = nodes.indexOf(startText);
+                nodes.splice(0, startIndex);
+                nodeLength = nodes.length;
             }
             let lastNode = nodes[nodeLength - 1];
             let firstNode = nodes[0];
@@ -105,17 +105,20 @@ class TextSelector {
     // Get the index of the txt node selected
     getTextNodesFromNode(startNode, startRange, endRange) {
         let nodes = [];
-        let startTextNodeIndex = this.getTextNodeIndex(startRange);
-        let endTextNodeIndex = this.getTextNodeIndex(endRange);
-        let textNode;
-        if (endTextNodeIndex == startTextNodeIndex) {
-            textNode = this.getTextNodeForIndex(startNode, startTextNodeIndex);
-            nodes.push(textNode);
-        } else {
-            textNode = this.getTextNodeForIndex(startNode, startTextNodeIndex);
-            nodes.push(textNode);
-            textNode = this.getTextNodeForIndex(startNode, endTextNodeIndex);
-            nodes.push(textNode);
+        let startPos = this.getTextNodePosition(startNode, startRange);
+        let endPos = this.getTextNodePosition(startNode, endRange);
+
+        let childNodes = startNode.childNodes;
+        for (let i = 0; i < childNodes.length; i++) {
+            if (i < startPos) {
+                continue
+            }
+            if (i > endPos) {
+                break
+            }
+            if (childNodes[i].nodeName !== 'BR') {
+                nodes.push(childNodes[i]);
+            }
         }
         return nodes;
     }
@@ -146,12 +149,26 @@ class TextSelector {
      @return Integer [index]
      This functin returns the index of the text node w.r.t the parent node
     */
-    getTextNodeIndex(rangeStr) {
+    getTextNodeIndex(node, rangeStr) {
         let strIndex = rangeStr.lastIndexOf('text()[');
         if (strIndex != -1) {
             strIndex = strIndex + 6;
         }
-        return parseInt(rangeStr.substr(strIndex + 1, rangeStr.length));
+        let position = parseInt(rangeStr.substr(strIndex + 1, rangeStr.length));
+        return this.getCurrentIndexOfTextNode(node, position);
+    }
+
+    /* 
+     @return Integer [index]
+     This functin returns the index of the text node w.r.t the parent node
+    */
+    getTextNodePosition(node, rangeStr) {
+        let strIndex = rangeStr.lastIndexOf('text()[');
+        if (strIndex != -1) {
+            strIndex = strIndex + 6;
+        }
+        let position = parseInt(rangeStr.substr(strIndex + 1, rangeStr.length));
+        return this.getCurrentIndexOfTextNode(node, position);
     }
 
     /*
@@ -160,20 +177,20 @@ class TextSelector {
     A start node may hane several text nodes, 
     return the text node for the given index
     */
-    getTextNodeForIndex(startNode, index) {
+    getCurrentIndexOfTextNode(startNode, index) {
         let textNodeCount = 0;
-        let textNode;
+        let currentNodeIndex;
         let childNodes = startNode.childNodes;
         for (let i = 0; i < childNodes.length; i++) {
             if (childNodes[i].nodeType === 3)  {
                 textNodeCount++;
                 if (textNodeCount == index) {
-                    textNode = childNodes[i];
+                    currentNodeIndex = i;
                     break;
                 }
             }
         }
-        return textNode;
+        return currentNodeIndex;
     }
 }
 

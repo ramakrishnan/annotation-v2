@@ -5,7 +5,7 @@ var __template = "<div id='dummy-html' class='container'> \
             <h1 class='h1-title'><span class='big-font'>Hellow </span><span class='small-font'>World</span></h1> \
             <div> \
                 <h1 class='h1-title'>OVERVIEW: <br/> \
-                    Here we will test all possible contents <br/> \
+                    Here we will test all possible contents <span>I am a span tag</span><br/> \
                     for annotation <br/> :) </h1> \
             </div> \
         </header> \
