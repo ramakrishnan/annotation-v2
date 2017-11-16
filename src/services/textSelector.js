@@ -116,8 +116,23 @@ class TextSelector {
             if (i > endPos) {
                 break
             }
-            if (childNodes[i].nodeName !== 'BR') {
+            if (childNodes[i].nodeType !== 3) {
+                nodes = nodes.concat(this.getAllTextNodes(childNodes[i]));
+            } else {
                 nodes.push(childNodes[i]);
+            }
+        }
+        return nodes;
+    }
+
+    getAllTextNodes(node) {
+        let nodes = [];
+        let childNodes = node.childNodes;
+        for (let i = 0; i < childNodes.length; i++) {
+            if (childNodes[i].nodeType == 3) {
+                nodes.push(childNodes[i]);
+            } else {
+                nodes = nodes.concat(this.getAllTextNodes(childNodes[i]));
             }
         }
         return nodes;

@@ -56,4 +56,12 @@ rangeMapper.set('span-tag-crossing-texts-with-brs', {
     "endOffset": 3,
     "text": "contents I am a span tag                     for annotation  :)"
 })
+
+rangeMapper.set('highlight-multiple-spans', {
+    "start": "/div[1]/div[3]/p[1]/text()[1]",
+    "end": "/div[1]/div[3]/p[1]/text()[2]",
+    "startOffset": 23,
+    "endOffset": 4,
+    "text": "possible contents I am a span tag"
+})
 export default rangeMapper

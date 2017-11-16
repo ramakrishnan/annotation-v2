@@ -125,5 +125,13 @@ describe('Text Selector service', () => {
           expect(node[2].textContent).to.equal('                     for annotation ');
           expect(node[3].textContent).to.equal(' :)');
         })
+        it('Scrap through multiple nested tags when highlighted', () => {
+            let range = rangeMapper.get('highlight-multiple-spans');
+            let node = TextSelectorService.getSelectedNodes(range);
+            expect(node.length).to.equal(3);
+            expect(node[0].textContent).to.equal('possible contents I am a ');
+            expect(node[1].textContent).to.equal('span');
+            expect(node[2].textContent).to.equal(' tag');
+        })
     })
 })

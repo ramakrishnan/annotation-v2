@@ -16,4 +16,7 @@ var __template = "<div id='dummy-html' class='container'> \
         <header>Some body content</header> \
         <p> A huge paragraph with some random words which get repeated in a loop. Loop 1 A huge paragraph with some random words which get repeated in a loop. Loop 2A huge paragraph with some random words which get repeated in a loop. Loop 3 A huge paragraph with some random words which get repeated in a loop.</p> \
     </div> \
+    <div class='box-margin'> \
+        <p> Here we will test all possible contents I am a <span>span</span> tag </p> \
+    <div> \
 </div>"
