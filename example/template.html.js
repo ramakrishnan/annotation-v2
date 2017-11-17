@@ -1,4 +1,5 @@
-var __template = "<div id='dummy-html' class='container'> \
+var __template = 
+"<div id='dummy-html' class='container'> \
     <div class='box-margin'> \
         <header> \
             <span class='spacing'></span> \
@@ -17,6 +18,9 @@ var __template = "<div id='dummy-html' class='container'> \
         <p> A huge paragraph with some random words which get repeated in a loop. Loop 1 A huge paragraph with some random words which get repeated in a loop. Loop 2A huge paragraph with some random words which get repeated in a loop. Loop 3 A huge paragraph with some random words which get repeated in a loop.</p> \
     </div> \
     <div class='box-margin'> \
-        <p> Here we will test all possible contents I am a <span>span</span> tag </p> \
+        <p> Here we will test all possible contents I am a <span><span><span>span</span></span></span> tag </p> \
+    <div> \
+    <div class='box-margin two'> \
+        <div> <p> Here we will </p> <div> <p> test all possible <div> <p> contents with more nested</p></div> <div> <p> tags within </p> </div> <p> every tag </p> </div>\
     <div> \
 </div>"

@@ -164,19 +164,6 @@ class TextSelector {
      @return Integer [index]
      This functin returns the index of the text node w.r.t the parent node
     */
-    getTextNodeIndex(node, rangeStr) {
-        let strIndex = rangeStr.lastIndexOf('text()[');
-        if (strIndex != -1) {
-            strIndex = strIndex + 6;
-        }
-        let position = parseInt(rangeStr.substr(strIndex + 1, rangeStr.length));
-        return this.getCurrentIndexOfTextNode(node, position);
-    }
-
-    /* 
-     @return Integer [index]
-     This functin returns the index of the text node w.r.t the parent node
-    */
     getTextNodePosition(node, rangeStr) {
         let strIndex = rangeStr.lastIndexOf('text()[');
         if (strIndex != -1) {
