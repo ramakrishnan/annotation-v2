@@ -80,18 +80,6 @@ class TextSelector {
             firstNode.nextSibling.splitText(range.endOffset - range.startOffset);
             nodes[0] = firstNode.nextSibling;
         } else if (nodeLength > 1) {
-            // When node length is more than 1 and start and end node are same.
-            // It is more likely that there are few <br> which resulted in more then
-            // one text node.
-            // It is preferred to get the index of the text node selected.
-            // And remove the other nodes before them.
-            if (startNode !== endNode) {
-                let startTextNodePos = this.getTextNodePosition(startNode, range.start);
-                let startText = startNode.childNodes[startTextNodePos];
-                let startIndex = nodes.indexOf(startText);
-                nodes.splice(0, startIndex);
-                nodeLength = nodes.length;
-            }
             let lastNode = nodes[nodeLength - 1];
             let firstNode = nodes[0];
             nodes[0] = firstNode.splitText(range.startOffset);
@@ -143,6 +131,7 @@ class TextSelector {
     getTextNodesBetweenNodes(startNode, endNode, tree) {
         let nodes = [];
         let startNodeFound = false;
+        let endtNodeFound = false;
         let textNode = tree.nextNode();
         while (textNode) {
             let currentParent = textNode.parentNode;
@@ -153,9 +142,28 @@ class TextSelector {
                 nodes.push(textNode);
             }
             if (currentParent == endNode) {
-                break
+                break;
             }
             textNode = tree.nextNode();
+        }
+        // When node length is more than 1 and start and end node are same.
+        // It is more likely that there are few <br> which resulted in more then
+        // one text node.
+        // It is preferred to get the index of the text node selected.
+        // And remove the other nodes before them.
+        if (endNode.childNodes.length > 0) {
+            let childNodes = this.getAllTextNodes(endNode);
+            let nodesLength = nodes.length;
+            let lastPushedNode = childNodes.indexOf(nodes[nodesLength -1]);
+            childNodes.splice(0, lastPushedNode + 1);
+            nodes = nodes.concat(childNodes);
+        }
+        if (nodes.length > 1) {
+            let startTextNodePos = this.getTextNodePosition(startNode, range.start);
+            let startText = startNode.childNodes[startTextNodePos];
+            let startIndex = nodes.indexOf(startText);
+            nodes.splice(0, startIndex);
+            nodeLength = nodes.length;
         }
         return nodes;
     }

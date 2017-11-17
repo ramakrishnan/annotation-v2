@@ -15,7 +15,6 @@ describe('EditorService', () => {
         EditorService.inject();
     })
     afterEach(() => {
-    	console.log('Clear11111')
         document.getElementsByClassName('annotation-editor')[0].remove();
     })
     describe('Edit', () => {
