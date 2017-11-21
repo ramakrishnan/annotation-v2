@@ -66,7 +66,7 @@ class TextSelector {
                 }
             }, false);
         if (startNode !== endNode) {
-            nodes = this.getTextNodesBetweenNodes(startNode, endNode, tree);
+            nodes = this.getTextNodesBetweenNodes(startNode, endNode, tree, range);
         } else {
             nodes = this.getTextNodesFromNode(startNode, range.start, range.end);
         }
@@ -128,7 +128,7 @@ class TextSelector {
 
     // Traverse the DOM tree and pick all text nodes 
     // which fall between start and end node
-    getTextNodesBetweenNodes(startNode, endNode, tree) {
+    getTextNodesBetweenNodes(startNode, endNode, tree, range) {
         let nodes = [];
         let startNodeFound = false;
         let endtNodeFound = false;
@@ -152,18 +152,21 @@ class TextSelector {
         // It is preferred to get the index of the text node selected.
         // And remove the other nodes before them.
         if (endNode.childNodes.length > 0) {
-            let childNodes = this.getAllTextNodes(endNode);
+            let endTextNodePos = this.getTextNodePosition(endNode, range.end);
+            let endTextNodes = this.getAllTextNodes(endNode);
+            let lastTextNode = endNode.childNodes[endTextNodePos];
+            let actualEndNodeIndex = endTextNodes.indexOf(lastTextNode);
+            let actualEndNodes = endTextNodes.splice(0, actualEndNodeIndex + 1);
             let nodesLength = nodes.length;
-            let lastPushedNode = childNodes.indexOf(nodes[nodesLength -1]);
-            childNodes.splice(0, lastPushedNode + 1);
-            nodes = nodes.concat(childNodes);
+            let lastPushedNode = actualEndNodes.indexOf(nodes[nodesLength -1]);
+            actualEndNodes.splice(0, lastPushedNode + 1);
+            nodes = nodes.concat(actualEndNodes);
         }
         if (nodes.length > 1) {
             let startTextNodePos = this.getTextNodePosition(startNode, range.start);
             let startText = startNode.childNodes[startTextNodePos];
             let startIndex = nodes.indexOf(startText);
             nodes.splice(0, startIndex);
-            nodeLength = nodes.length;
         }
         return nodes;
     }
